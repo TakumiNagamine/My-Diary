@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Diary</title>
+
+  <!-- ▼ テーマ CSS … 全ページ共通 -->
+  <link rel="stylesheet" href="../Theme/theme.css">
+
+  <!-- ▼ HOME 固有のデザイン -->
+  <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+
+  <!-- ▼ ▼ ヘッダー ▼ ▼ -->
+  <header>
+    <h1 class="title">My Diary</h1>
+    <nav>
+      <ul>
+        <li><a href="../Home/home.html" class="active">HOME</a></li>
+        <li><a href="../Today/today.html">今日の気分</a></li>
+        <li><a href="../Write/write.html">日記</a></li>
+        <li><a href="../Storage/storage.html">保管庫</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ▼ ▼ メイン ▼ ▼ -->
+  <main>
+    <div class="main-container">
+
+      <!-- 左エリア -->
+      <section class="left-content">
+        <h2>＜ HOME ＞</h2>
+        <div class="intro">
+          <p>
+            このアプリは、自分の気分や日々の出来事を記録し、振り返るために作成しました。
+            日々の中で感じたことや考えたことを整理し、メンタルの安定や新たな発想につなげることを目的としています。
+            私は普段、思いついたことを忘れてしまったり、友達と話した内容をうまく思い出せないことがあります。
+            そんな時に自分の中を言葉にすることで、気づかなかった感情や考えが見えてくるのではないかと思いました。
+            また、紙に書くと周囲の目が気になったり続けにくさを感じることもありますが、
+            このページなら気軽に手を動かして振り返ることができます。
+            ここが自分を見つめ直すきっかけになれば嬉しいです。
+          </p>
+        </div>
+      </section>
+
+      <!-- 右エリア -->
+      <section class="right-content">
+        <div class="card">
+          <h2>カレンダー</h2>
+          <div id="calendar"></div>
+        </div>
+
+        <div class="card">
+          <h2>最新の気分</h2>
+          <p id="latestMood">読み込み中...</p>
+
+          <h2>理由</h2>
+          <p id="latestReason">読み込み中...</p>
+
+          <h2>記録日時</h2>
+          <p id="latestDate">読み込み中...</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ▼ ▼ フッター ▼ ▼ -->
+  <footer>
+    <p>© 2025 My Diary | 現在時刻: <span id="clock"></span></p>
+  </footer>
+
+  <!-- ▼ ▼ 壁紙ウィンドウ ▼ ▼ -->
+  <div id="wallpaperWindow" class="wallpaper-window">
+    <div class="wallpaper-header">
+      <span>壁紙設定</span>
+      <button id="wpCloseBtn">×</button>
+    </div>
+
+    <div class="wallpaper-body">
+      <label class="wp-option">
+        <input type="radio" name="wallpaper" value="rain">
+        紺
+      </label>
+
+      <label class="wp-option">
+        <input type="radio" name="wallpaper" value="forest">
+        緑
+      </label>
+
+      <label class="wp-option">
+        <input type="radio" name="wallpaper" value="white">
+        白
+      </label>
+
+      <label class="wp-option">
+        <input type="radio" name="wallpaper" value="black">
+        黒
+      </label>
+    </div>
+  </div>
+
+  <!-- ▼ ▼ 歯車メニュー ▼ ▼ -->
+  <div id="circleMenu">
+    <div id="mainCircleBtn" class="circle-btn main-btn">⚙️</div>
+    <div id="circleWallpaper" class="circle-btn sub-btn">🎨</div>
+  </div>
+
+  <!-- ▼ 最後に JS 読み込み（テーマ適用のため必須） -->
+  <script src="../JavaScript/main.js"></script>
+</body>
+</html>

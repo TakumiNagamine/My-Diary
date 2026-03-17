@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日記・振り返り - My Diary</title>
+
+  <link rel="stylesheet" href="../Theme/theme.css">
+
+  <link rel="stylesheet" href="write.css">
+</head>
+<body>
+
+  <!-- ▼ヘッダー -->
+  <header>
+    <h1 class="title">My Diary</h1>
+    <nav>
+      <ul>
+        <li><a href="../Home/home.html">HOME</a></li>
+        <li><a href="../Today/today.html">今日の気分</a></li>
+        <li><a href="../Write/write.html" class="active">日記</a></li>
+        <li><a href="../Storage/storage.html">保管庫</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ▼メイン -->
+  <main>
+    <div class="write-container">
+
+      <!-- 日記入力エリア -->
+      <section class="write-area">
+        <h2>今日の日記・振り返り記入</h2>
+        <textarea id="diaryText" placeholder="ここに今日の日記を書きましょう..."></textarea>
+        <button class="save-button" onclick="saveDiary()">💾 保存</button>
+      </section>
+
+      <!-- サイドバー -->
+      <aside class="sidebar">
+        <h2>メモ・過去の日記</h2>
+        <ul id="recentList">
+          <!-- 最新3件がここに表示される -->
+        </ul>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ▼フッター -->
+  <footer>
+    <p>© 2025 My Diary | 現在時刻: <span id="clock"></span></p>
+  </footer>
+
+  <!-- ▼スクリプト -->
+  <script>
+   
+
+    // ▼ 日記保存処理
+    function saveDiary() {
+      const textArea = document.getElementById("diaryText");
+      const text = textArea.value.trim();
+
+      if (text === "") {
+        alert("日記が空です。内容を入力してください。");
+        return;
+      }
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
+      const timeStr = now.toLocaleTimeString(); // ← ここで時刻も記録
+
+      // 既存データ取得
+      const diaries = JSON.parse(localStorage.getItem("diaries")) || [];
+
+      // 新しい日記を追加（時刻も保存）
+      diaries.unshift({
+        date: dateStr,
+        time: timeStr, // ← 新しく追加
+        text: text
+      });
+
+      // 保存
+      localStorage.setItem("diaries", JSON.stringify(diaries));
+
+      // 入力欄をクリア
+      textArea.value = "";
+
+      // サイドバー更新
+      updateSidebar();
+
+      alert("日記を保存しました！");
+    }
+
+    // ▼ サイドバー更新
+    function updateSidebar() {
+      const list = document.getElementById("recentList");
+      list.innerHTML = "";
+
+      const diaries = JSON.parse(localStorage.getItem("diaries")) || [];
+
+      if (diaries.length === 0) {
+        list.innerHTML = "<li>まだ日記はありません。</li>";
+        return;
+      }
+
+      // 最新3件だけ表示（時刻も表示）
+      diaries.slice(0, 3).forEach(entry => {
+        const li = document.createElement("li");
+        li.textContent = `${entry.date} ${entry.time} - ${entry.text.substring(0, 10)}...`;
+        list.appendChild(li);
+      });
+    }
+
+    // ページ読み込み時にサイドバーを更新
+    window.onload = updateSidebar;
+  </script>
+
+  <!-- ▼ 最後に JS 読み込み（テーマ適用のため必須） -->
+  <script src="../JavaScript/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>今日の気分 - My Diary</title>
+  <link rel="stylesheet" href="../Theme/theme.css">
+
+  <link rel="stylesheet" href="today.css">
+</head>
+<body>
+
+  <!-- ▼ヘッダー -->
+  <header>
+    <h1 class="title">My Diary</h1>
+    <nav>
+      <ul>
+        <li><a href="../Home/home.html">HOME</a></li>
+        <li><a href="../Today/today.html" class="active">今日の気分</a></li>
+        <li><a href="../Write/write.html">日記</a></li>
+        <li><a href="../Storage/storage.html">保管庫</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ▼メイン -->
+  <main>
+    <section class="mood-section">
+      <h2>今日の気分</h2>
+
+      <div class="question">
+        <p>Q1. 今の気持ち（または今日の気分）は？</p>
+        <div class="mood-options">
+          <label><input type="radio" name="mood" value="うれしい"> 😊 うれしい</label>
+          <label><input type="radio" name="mood" value="かなしい"> 😢 かなしい</label>
+          <label><input type="radio" name="mood" value="いらいら"> 😠 いらいら</label>
+          <label><input type="radio" name="mood" value="だるい"> 😪 だるい</label>
+          <label><input type="radio" name="mood" value="ふつう"> 😐 ふつう</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>Q2. その感情の由来は？</p>
+        <textarea id="reason" placeholder="例）テストが上手くいった・友達と話して楽しかった..."></textarea>
+      </div>
+
+      <button id="saveMood">保存する</button>
+      <p id="saveMessage" class="message"></p>
+
+      <hr>
+
+      <h3>これまでの記録</h3>
+      <ul id="moodHistory" class="history-list"></ul>
+    </section>
+  </main>
+
+  <!-- ▼フッター -->
+  <footer>
+    <p>© 2025 My Diary | 現在時刻: <span id="clock"></span></p>
+  </footer>
+
+  <script>
+
+    // --- 「今日の気分」保存処理 ---
+    document.getElementById("saveMood").addEventListener("click", function() {
+      const mood = document.querySelector('input[name="mood"]:checked');
+      const reason = document.getElementById("reason").value.trim();
+
+      if (!mood) {
+        alert("気分を選んでください。");
+        return;
+      }
+
+      const todayData = {
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        mood: mood.value,
+        reason: reason || "（理由なし）"
+      };
+
+      // 既存の履歴を取得
+      const history = JSON.parse(localStorage.getItem("moodHistory") || "[]");
+      history.push(todayData);
+
+      // 保存
+      localStorage.setItem("moodHistory", JSON.stringify(history));
+      localStorage.setItem("todayMood", JSON.stringify(todayData)); // 最新データも別保存
+
+      document.getElementById("saveMessage").textContent = "保存しました！";
+      document.getElementById("reason").value = "";
+      mood.checked = false;
+
+      displayHistory(); // 保存後に一覧更新
+    });
+
+    // --- 履歴表示関数 ---
+    function displayHistory() {
+      const historyList = document.getElementById("moodHistory");
+      historyList.innerHTML = "";
+
+      const history = JSON.parse(localStorage.getItem("moodHistory") || "[]");
+
+      if (history.length === 0) {
+        historyList.innerHTML = "<li>まだ保存された記録はありません。</li>";
+        return;
+      }
+
+      // 最新が上に来るように逆順表示
+      [...history].reverse().forEach(entry => {
+        const li = document.createElement("li");
+        li.textContent = `${entry.date} ${entry.time}｜気分：${entry.mood}｜理由：${entry.reason}`;
+        historyList.appendChild(li);
+      });
+    }
+
+    // --- 初期化 ---
+    window.onload = function() {
+      displayHistory();
+    };
+  </script>
+  
+  <!-- ▼ 最後に JS 読み込み（テーマ適用のため必須） -->
+  <script src="../JavaScript/main.js"></script>
+
+</body>
+</html>

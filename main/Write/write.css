@@ -1,0 +1,250 @@
+/* write.css */
+
+
+body {
+  margin: 0;
+  font-family: "游ゴシック体", "Yu Gothic", sans-serif;
+  background: linear-gradient(to bottom right, #fefefe, #e3f2fd);
+  color: #333;
+  transition: background 0.5s ease;
+}
+
+/* ヘッダー・フッター流用 */
+header, footer {
+  background-color: #1976d2;
+  color: white;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .title {
+  font-size: 28px;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+}
+
+/* 日記記入レイアウト */
+.write-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 90%;
+  max-width: 1100px;
+  margin: 20px auto;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 25%;
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.sidebar h2 {
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 5px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 日記入力部分 */
+.write-area {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.write-area h2 {
+  margin-top: 0;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 5px;
+}
+
+textarea {
+  width: 100%;
+  height: 65vh;
+  resize: none;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.6;
+  box-sizing: border-box;
+  background: #fefefe;
+}
+
+/* 保存ボタン */
+.save-button {
+  align-self: flex-end;
+  margin-top: 20px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.save-button:hover {
+  background: #125a9c;
+}
+
+/* メッセージ */
+.message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* ===========================
+   壁紙ウィンドウ
+=========================== */
+.wallpaper-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 240px;
+  min-height: 160px;
+  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 3000;
+  overflow: hidden;
+}
+
+.wallpaper-header {
+  background: #1976d2;
+  color: white;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 12px 12px 0 0;
+  cursor: grab;
+}
+
+.wallpaper-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.wallpaper-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* ===========================
+   設定メニュー（歯車展開）
+=========================== */
+#circleMenu {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  z-index: 3500;
+}
+
+/* 共通丸ボタン */
+.circle-btn {
+  width: 55px;
+  height: 55px;
+  background: #1976d2;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* メイン（歯車） */
+.main-btn {
+  bottom: 0;
+  right: 0;
+}
+
+/* サブボタン初期状態 */
+.sub-btn {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.3);
+}
+
+/* 表示時（展開） */
+.sub-btn.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* 展開位置 */
+#circleWallpaper.show {
+  bottom: 80px;
+  right: 0px;
+}
+
+#circleMusic.show {
+  bottom: 150px;
+  right: 0px;
+}

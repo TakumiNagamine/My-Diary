@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>保管庫 - My Diary</title>
+
+  
+  <!-- ▼ テーマ CSS … 全ページ共通 -->
+ <link rel="stylesheet" href="../Theme/theme.css">
+
+  <link rel="stylesheet" href="storage.css">
+</head>
+<body>
+
+  <!-- ▼ヘッダー -->
+  <header>
+    <h1 class="title">My Diary</h1>
+    <nav>
+      <ul>
+        <li><a href="../Home/home.html">HOME</a></li>
+        <li><a href="../Today/today.html">今日の気分</a></li>
+        <li><a href="../Write/write.html">日記</a></li>
+        <li><a href="../Storage/storage.html" class="active">保管庫</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ▼メイン -->
+  <main>
+    <div class="storage-container">
+      <h2>日記保管庫</h2>
+      <p>これまでに書いた日記の一覧です。</p>
+
+      <div id="diaryList" class="diary-list"></div>
+    </div>
+  </main>
+
+  <!-- ▼フッター -->
+  <footer>
+    <p>© 2025 My Diary | 現在時刻: <span id="clock"></span></p>
+  </footer>
+  
+  <script>
+
+    // --- 日記一覧の読み込み ---
+    function loadDiaries() {
+      const listContainer = document.getElementById("diaryList");
+      listContainer.innerHTML = "";
+
+      const diaries = JSON.parse(localStorage.getItem("diaries")) || [];
+      const moods = JSON.parse(localStorage.getItem("moodHistory")) || [];
+
+      if (diaries.length === 0) {
+        listContainer.innerHTML = "<p>まだ保存された日記はありません。</p>";
+        return;
+      }
+
+      // 最新が上にくるように
+      diaries.reverse().forEach((entry, index) => {
+        // --- 同じ日付の気分データを検索 ---
+        const relatedMood = moods.find(m => m.date === entry.date);
+
+        // --- HTML構築 ---
+        const div = document.createElement("div");
+        div.classList.add("diary-entry");
+        div.innerHTML = `
+          <h3>📅 ${entry.date} <span style="font-size:0.9em; color:#555;">${entry.time || ""}</span></h3>
+          <p>${entry.text.replace(/\n/g, "<br>")}</p>
+          ${relatedMood ? `
+            <p><strong>気分：</strong> ${relatedMood.mood}</p>
+            <p><strong>理由：</strong> ${relatedMood.reason}</p>
+          ` : `<p style="color:#888;">この日の気分データはありません。</p>`}
+          <button class="delete-btn" onclick="deleteDiary(${diaries.length - 1 - index})">削除</button>
+        `;
+        listContainer.appendChild(div);
+      });
+    }
+
+    // --- 日記削除処理 ---
+    function deleteDiary(index) {
+      const diaries = JSON.parse(localStorage.getItem("diaries")) || [];
+      diaries.splice(index, 1);
+      localStorage.setItem("diaries", JSON.stringify(diaries));
+      loadDiaries();
+    }
+
+    // --- ページ初期化 ---
+    window.onload = loadDiaries;
+  </script>
+
+   <!-- ▼ 最後に JS 読み込み（テーマ適用のため必須） -->
+  <script src="../JavaScript/main.js"></script>
+ 
+</body>
+</html>
